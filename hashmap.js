@@ -1,8 +1,8 @@
 class HashMap {
-  // defaultBucketsSize = 16;
-  // buckets = Array(this.defaultBucketsSize);
-  // capacity = this.buckets.length;
-  // loadFactor = 0.75;
+  BucketsSize = 16;
+  buckets = Array(this.BucketsSize);
+  capacity = this.buckets.length;
+  loadFactor = 0.75;
 
   hash(key) {
     let hashCode = 0;
@@ -12,18 +12,24 @@ class HashMap {
       hashCode = primeNumber * hashCode + key.charCodeAt(i);
     }
 
-    return hashCode;
-    // return hashCode % this.capacity;
+    // return hashCode;
+    return hashCode % this.capacity;
   }
 }
 
-class Node {}
+class Node {
+  constructor(key = null, value = null, nextNode = null) {
+    this.key = key;
+    this.value = value;
+    this.nextNode = nextNode;
+  }
+}
 
 let myHashMap = new HashMap();
 
-// console.log(myHashMap.buckets);
-// console.log(myHashMap.capacity);
-// console.log(myHashMap.loadFactor);
+console.log(myHashMap.buckets);
+console.log(myHashMap.capacity);
+console.log(myHashMap.loadFactor);
 
 console.log(myHashMap.hash('Mark'));
 console.log(myHashMap.hash('Bob'));
