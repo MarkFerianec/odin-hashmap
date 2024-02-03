@@ -1,7 +1,7 @@
 class HashMap {
-  BucketsSize = 16;
-  buckets = Array(this.BucketsSize);
-  capacity = this.buckets.length;
+  bucketsSize = 16;
+  buckets = Array(this.bucketsSize);
+  capacity = 0;
   loadFactor = 0.75;
 
   hash(key) {
@@ -13,13 +13,25 @@ class HashMap {
     }
 
     // return hashCode;
-    return hashCode % this.capacity;
+    return hashCode % this.bucketsSize;
   }
 
   set(key, value) {
     if (this.buckets[this.hash(key)] === undefined) {
       let newNode = new Node(key, value);
       this.buckets[this.hash(key)] = newNode;
+      this.capacity += 1;
+      // We might have to move this to a better spot
+      // Maybe before this.capacity += 1; or after?
+      if (this.capacity / this.bucketsSize === this.loadFactor) {
+        console.log('load factor reached');
+        let newArray = Array(2 * this.bucketsSize);
+        this.bucketsSize *= 2;
+        for (let i = 0; i < this.buckets.length; i++) {
+          newArray[i] = this.buckets[i];
+        }
+        this.buckets = newArray;
+      }
     }
 
     if (this.buckets[this.hash(key)] !== undefined) {
@@ -86,23 +98,34 @@ let myHashMap = new HashMap();
 // console.log(myHashMap.hash('Richard'));
 // console.log(myHashMap.hash('Sarah')); // Hashes to 11
 
-// myHashMap.set('Mark', 'Something');
-// myHashMap.set('Bob', 'Something');
+myHashMap.set('Mark', 'Something');
+myHashMap.set('Bob', 'Something');
 myHashMap.set('Steven', '1');
 myHashMap.set('Steven', 'overwritten');
-// myHashMap.set('James', 'Something');
-// myHashMap.set('Patricia', 'Something');
-// myHashMap.set('Jennifer', 'Something');
+myHashMap.set('James', 'Something');
+myHashMap.set('Patricia', 'Something');
+myHashMap.set('Jennifer', 'Something');
 myHashMap.set('John', '2');
 myHashMap.set('John', 'overwrite John');
-// myHashMap.set('Elizabeth', 'Something');
-// myHashMap.set('William', 'Something');
-// myHashMap.set('Richard', 'Something');
+myHashMap.set('Elizabeth', 'Something');
+myHashMap.set('William', 'Something');
+myHashMap.set('Richard', 'Something');
 myHashMap.set('Sarah', '3');
 myHashMap.set('Sarah', 'overwrite Sarah');
 myHashMap.set('Sarah', 'overwrite Sarah AGAIN');
 myHashMap.set('Steven', 'Overwrite Steven later on');
 myHashMap.set('Sarah', 'Overwrite Sarah sometime later');
 myHashMap.set('John', 'Im done with this maybe');
+
+myHashMap.set('David', 'Something');
+myHashMap.set('Barbara', 'Something');
+myHashMap.set('Susan', 'Something');
+myHashMap.set('Christopher', 'Something');
+myHashMap.set('Lisa', 'Something');
+myHashMap.set('Anthony', 'Something');
+myHashMap.set('Margaret', 'Something');
+
+// This next node is used to reach load factor
+myHashMap.set('Ashley', 'Something');
 
 console.log(myHashMap.buckets);
