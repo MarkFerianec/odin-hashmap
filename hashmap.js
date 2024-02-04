@@ -96,6 +96,31 @@ class HashMap {
 
     return null;
   }
+
+  has(key) {
+    let temporary = this.buckets[this.hash(key)];
+
+    if (temporary === undefined) {
+      return false;
+    }
+
+    if (temporary.key === key) {
+      return true;
+    }
+
+    while (temporary.nextNode !== null) {
+      if (temporary.key === key) {
+        return true;
+      }
+      temporary = temporary.nextNode;
+    }
+
+    if (temporary.key === key) {
+      return true;
+    }
+
+    return false;
+  }
 }
 
 class Node {
@@ -156,11 +181,17 @@ myHashMap.set('Ashley', 'Something');
 
 console.log(myHashMap.buckets);
 
-console.log(myHashMap.get('Mark')); // Should return 'Something'
-console.log(myHashMap.get('Paul')); // Should return null
+// console.log(myHashMap.get('Mark')); // Should return 'Something'
+// console.log(myHashMap.get('Paul')); // Should return null
 
-console.log(myHashMap.get('Steven')); // Should return 1
-console.log(myHashMap.get('John')); // Should return 2
-console.log(myHashMap.get('Sarah')); // Should return 3
-console.log(myHashMap.get('Lisa')); // Should return null
-console.log(myHashMap.get('g43')); // Should return null
+// console.log(myHashMap.get('Steven')); // Should return 1
+// console.log(myHashMap.get('John')); // Should return 2
+// console.log(myHashMap.get('Sarah')); // Should return 3
+// console.log(myHashMap.get('Lisa')); // Should return null
+// console.log(myHashMap.get('g43')); // Should return null
+
+console.log(myHashMap.has('Mark')); // Should return true
+console.log(myHashMap.has('Paul')); //Should return false
+console.log(myHashMap.has('Steven')); //Should return true
+console.log(myHashMap.has('Sarah')); //Should return true
+console.log(myHashMap.has('g43')); //Should return false
