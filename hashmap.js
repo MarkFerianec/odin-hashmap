@@ -13,7 +13,8 @@ class HashMap {
     }
 
     // return hashCode;
-    return hashCode % this.bucketsSize;
+    return hashCode % 16;
+    // return hashCode % this.bucketsSize;
   }
 
   set(key, value) {
@@ -70,6 +71,31 @@ class HashMap {
       }
     }
   }
+
+  get(key) {
+    let temporary = this.buckets[this.hash(key)];
+
+    if (temporary === undefined) {
+      return null;
+    }
+
+    if (temporary.key === key) {
+      return temporary.value;
+    }
+
+    while (temporary.nextNode !== null) {
+      if (temporary.key === key) {
+        return temporary.value;
+      }
+      temporary = temporary.nextNode;
+    }
+
+    if (temporary.key === key) {
+      return temporary.value;
+    }
+
+    return null;
+  }
 }
 
 class Node {
@@ -101,27 +127,27 @@ let myHashMap = new HashMap();
 myHashMap.set('Mark', 'Something');
 myHashMap.set('Bob', 'Something');
 myHashMap.set('Steven', '1');
-myHashMap.set('Steven', 'overwritten');
+// myHashMap.set('Steven', 'overwritten');
 myHashMap.set('James', 'Something');
 myHashMap.set('Patricia', 'Something');
 myHashMap.set('Jennifer', 'Something');
 myHashMap.set('John', '2');
-myHashMap.set('John', 'overwrite John');
+// myHashMap.set('John', 'overwrite John');
 myHashMap.set('Elizabeth', 'Something');
 myHashMap.set('William', 'Something');
 myHashMap.set('Richard', 'Something');
 myHashMap.set('Sarah', '3');
-myHashMap.set('Sarah', 'overwrite Sarah');
-myHashMap.set('Sarah', 'overwrite Sarah AGAIN');
-myHashMap.set('Steven', 'Overwrite Steven later on');
-myHashMap.set('Sarah', 'Overwrite Sarah sometime later');
-myHashMap.set('John', 'Im done with this maybe');
+// myHashMap.set('Sarah', 'overwrite Sarah');
+// myHashMap.set('Sarah', 'overwrite Sarah AGAIN');
+// myHashMap.set('Steven', 'Overwrite Steven later on');
+// myHashMap.set('Sarah', 'Overwrite Sarah sometime later');
+// myHashMap.set('John', 'Im done with this maybe');
 
 myHashMap.set('David', 'Something');
 myHashMap.set('Barbara', 'Something');
 myHashMap.set('Susan', 'Something');
 myHashMap.set('Christopher', 'Something');
-myHashMap.set('Lisa', 'Something');
+// myHashMap.set('Lisa', 'Something');
 myHashMap.set('Anthony', 'Something');
 myHashMap.set('Margaret', 'Something');
 
@@ -129,3 +155,12 @@ myHashMap.set('Margaret', 'Something');
 myHashMap.set('Ashley', 'Something');
 
 console.log(myHashMap.buckets);
+
+console.log(myHashMap.get('Mark')); // Should return 'Something'
+console.log(myHashMap.get('Paul')); // Should return null
+
+console.log(myHashMap.get('Steven')); // Should return 1
+console.log(myHashMap.get('John')); // Should return 2
+console.log(myHashMap.get('Sarah')); // Should return 3
+console.log(myHashMap.get('Lisa')); // Should return null
+console.log(myHashMap.get('g43')); // Should return null
