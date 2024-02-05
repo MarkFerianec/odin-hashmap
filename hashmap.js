@@ -14,6 +14,7 @@ class HashMap {
 
     // return hashCode;
     return hashCode % 16;
+    // This does not work because it hashes differently:
     // return hashCode % this.bucketsSize;
   }
 
@@ -121,6 +122,37 @@ class HashMap {
 
     return false;
   }
+
+  remove(key) {
+    let temporary = this.buckets[this.hash(key)];
+
+    if (temporary === undefined || temporary === null) {
+      return false;
+    }
+
+    if (temporary.key === key) {
+      this.buckets[this.hash(key)] = temporary.nextNode;
+      return true;
+    }
+
+    while (temporary.nextNode !== null) {
+      if (temporary.nextNode.key === key) {
+        temporary.nextNode = temporary.nextNode.nextNode;
+        return true;
+      }
+      temporary = temporary.nextNode;
+    }
+
+    // I thought this would be necessary but maybe it isn't:
+    // if (temporary.nextNode !== null) {
+    //   if (temporary.nextNode.key === key) {
+    //     temporary.nextNode = null;
+    //     return true;
+    //   }
+    // }
+
+    return false;
+  }
 }
 
 class Node {
@@ -132,22 +164,6 @@ class Node {
 }
 
 let myHashMap = new HashMap();
-
-// console.log(myHashMap.buckets);
-// console.log(myHashMap.capacity);
-// console.log(myHashMap.loadFactor);
-
-// console.log(myHashMap.hash('Mark'));
-// console.log(myHashMap.hash('Bob'));
-// console.log(myHashMap.hash('Steven')); // Hashes to 11
-// console.log(myHashMap.hash('James'));
-// console.log(myHashMap.hash('Patricia'));
-// console.log(myHashMap.hash('Jennifer'));
-// console.log(myHashMap.hash('John')); // Hashes to 11
-// console.log(myHashMap.hash('Elizabeth'));
-// console.log(myHashMap.hash('William'));
-// console.log(myHashMap.hash('Richard'));
-// console.log(myHashMap.hash('Sarah')); // Hashes to 11
 
 myHashMap.set('Mark', 'Something');
 myHashMap.set('Bob', 'Something');
@@ -190,8 +206,20 @@ console.log(myHashMap.buckets);
 // console.log(myHashMap.get('Lisa')); // Should return null
 // console.log(myHashMap.get('g43')); // Should return null
 
-console.log(myHashMap.has('Mark')); // Should return true
-console.log(myHashMap.has('Paul')); //Should return false
-console.log(myHashMap.has('Steven')); //Should return true
-console.log(myHashMap.has('Sarah')); //Should return true
-console.log(myHashMap.has('g43')); //Should return false
+// console.log(myHashMap.has('Mark')); // Should return true
+// console.log(myHashMap.has('Paul')); // Should return false
+// console.log(myHashMap.has('Steven')); // Should return true
+// console.log(myHashMap.has('Sarah')); // Should return true
+// console.log(myHashMap.has('g43')); // Should return false
+
+myHashMap.set('23213141', '4'); // Added for testing purposes
+myHashMap.set('b431d3j', '5'); // Added for testing purposes
+
+// console.log(myHashMap.remove('Steven')); // Should return true
+// console.log(myHashMap.remove('John')); // Should return true
+// console.log(myHashMap.remove('Sarah')); // Should return true
+// console.log(myHashMap.remove('23213141')); // Should return true
+// console.log(myHashMap.remove('b431d3j')); // Should return true
+
+// console.log(myHashMap.remove('Paul')); // Should return false
+// console.log(myHashMap.remove('g43')); // Should return false
