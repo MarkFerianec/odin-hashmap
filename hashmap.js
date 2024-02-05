@@ -153,6 +153,23 @@ class HashMap {
 
     return false;
   }
+
+  length() {
+    let sum = 0;
+
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i] !== undefined) {
+        let temporary = this.buckets[i];
+
+        while (temporary !== null) {
+          sum += 1;
+          temporary = temporary.nextNode;
+        }
+      }
+    }
+
+    return sum;
+  }
 }
 
 class Node {
@@ -223,3 +240,5 @@ myHashMap.set('b431d3j', '5'); // Added for testing purposes
 
 // console.log(myHashMap.remove('Paul')); // Should return false
 // console.log(myHashMap.remove('g43')); // Should return false
+
+console.log(myHashMap.length());
