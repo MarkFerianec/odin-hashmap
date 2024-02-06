@@ -170,6 +170,12 @@ class HashMap {
 
     return sum;
   }
+
+  clear() {
+    for (let i = 0; i < this.buckets.length; i++) {
+      this.buckets[i] = undefined;
+    }
+  }
 }
 
 class Node {
@@ -241,4 +247,8 @@ myHashMap.set('b431d3j', '5'); // Added for testing purposes
 // console.log(myHashMap.remove('Paul')); // Should return false
 // console.log(myHashMap.remove('g43')); // Should return false
 
-console.log(myHashMap.length());
+// console.log(myHashMap.length());
+
+myHashMap.clear();
+
+console.log(myHashMap.buckets);
