@@ -210,6 +210,26 @@ class HashMap {
 
     return arrayOfValues;
   }
+
+  entries() {
+    let arrayOfEntries = [];
+
+    for (let i = 0; i < this.buckets.length; i++) {
+      if (this.buckets[i] !== undefined) {
+        let temporary = this.buckets[i];
+
+        while (temporary !== null) {
+          let temporaryArray = [];
+          temporaryArray.push(temporary.key);
+          temporaryArray.push(temporary.value);
+          arrayOfEntries.push(temporaryArray);
+          temporary = temporary.nextNode;
+        }
+      }
+    }
+
+    return arrayOfEntries;
+  }
 }
 
 class Node {
@@ -289,4 +309,6 @@ myHashMap.set('b431d3j', '5'); // Added for testing purposes
 
 // console.log(myHashMap.keys());
 
-console.log(myHashMap.values());
+// console.log(myHashMap.values());
+
+console.log(myHashMap.entries());
